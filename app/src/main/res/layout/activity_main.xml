@@ -12,6 +12,9 @@
         android:id="@+id/player_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:use_artwork="true"
+        app:default_artwork="@drawable/cat"
+        app:use_controller="true"
         app:controller_layout_id="@layout/exoplayer_controls" />
 
 

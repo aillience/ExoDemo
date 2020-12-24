@@ -27,10 +27,14 @@ import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
+import com.google.android.exoplayer2.upstream.DefaultDataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+import com.google.android.exoplayer2.util.RepeatModeUtil;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.C;
+import com.huoli.bbl.exodemo.exoplayer.PlayerManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,89 +56,39 @@ import androidx.appcompat.app.AppCompatActivity;
  * ===============================
  **/
 public class MainActivity extends AppCompatActivity {
-    private SimpleExoPlayer player;
-    private PlayerView playerView;
 
-    private String[] videoList = new String[]{
-            "https://qiniu.bangbangli.com/5GGZPVYQWLXNQZAFGY.mp4",
-            "https://qiniu.bangbangli.com/WOKHDT2R7LL1OV9O3Q.mp4",
-            "https://qiniu.bangbangli.com/T2HLOUE5P8R13X3ZAT.mp4"
-    };
+    private PlayerView playerView;
+    private PlayerManager playerManager;
+
+    private List<String> videoList = new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         playerView = findViewById(R.id.player_view);
+
         initializePlayer();
     }
 
     private void initializePlayer() {
-        if (player==null){
-            player =new SimpleExoPlayer.Builder(this).build();
-            //            Uri uri = Uri.parse(getString(R.string.url_dash));
-            List<MediaSource> playlist = new ArrayList<>();
-            for(String url :videoList){
-                Uri uri = Uri.parse(url);
-                MediaSource mediaSource = getMediaSource(uri);
-                playlist.add(mediaSource);
-            }
-            ConcatenatingMediaSource concatenatedSource = new ConcatenatingMediaSource(
-                    playlist.toArray(new MediaSource[playlist.size()]));
-            player.prepare(concatenatedSource);
-            player.seekTo(1, C.TIME_UNSET);
-            player.setRepeatMode(2);
-            //到哪一个位置
-//            player.seekTo(currentWindow, playbackPosition);
-        }
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(player != null){
-            playerView.setPlayer(player);
-            player.setPlayWhenReady(true);
-        }
-    }
+        playerManager = new PlayerManager(playerView);
+        playerManager.setRepeatMode(RepeatModeUtil.REPEAT_TOGGLE_MODE_ALL);
+        playerManager.setControllerShowTimeoutMs(0);
+        playerManager.paly();
 
+        //        videoList.add("https://qiniu.bangbangli.com/5GGZPVYQWLXNQZAFGY.mp4");
+        //        videoList.add("https://qiniu.bangbangli.com/WOKHDT2R7LL1OV9O3Q.mp4");
+        videoList.add("http://5.595818.com/2015/ring/000/140/6731c71dfb5c4c09a80901b65528168b.mp3");
+        playerManager.setPlayerUri(videoList);
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         //释放播放器
-        if (player != null) {
-            player.stop();
-            player.release();
-            player = null;
-        }
-    }
-
-    public MediaSource getMediaSource(Uri uri) {
-        int streamType  = Util.inferContentType(uri.getLastPathSegment());
-        switch (streamType) {
-            case C.TYPE_SS:
-                return new SsMediaSource.Factory(new DefaultDataSourceFactory(this, null,
-                        getHttpDataSourceFactory(true))).createMediaSource(uri);
-            case C.TYPE_DASH:
-                return new DashMediaSource.Factory(new DefaultDataSourceFactory(this, null,
-                        getHttpDataSourceFactory(true))).createMediaSource(uri);
-            case C.TYPE_HLS:
-                return new HlsMediaSource.Factory(getDataSourceFactory(true)).createMediaSource(uri);
-            case C.TYPE_OTHER:
-                return new ProgressiveMediaSource.Factory(getHttpDataSourceFactory(true)).createMediaSource(uri);
-            default: {
-                throw new IllegalStateException("Unsupported type: " + streamType);
-            }
-        }
-    }
-
-    private DataSource.Factory getDataSourceFactory(boolean preview) {
-        return new DefaultDataSourceFactory(this,Util.getUserAgent(this,"exo-aillience"));
-    }
-
-    private DataSource.Factory getHttpDataSourceFactory(boolean preview) {
-        return new DefaultHttpDataSourceFactory(Util.getUserAgent(this,
-                "exo-aillience"));
+        playerManager.onDestroy();
     }
 
     @Override
