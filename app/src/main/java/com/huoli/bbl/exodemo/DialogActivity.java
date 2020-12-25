@@ -1,40 +1,10 @@
 package com.huoli.bbl.exodemo;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
-import com.google.android.exoplayer2.DefaultLoadControl;
-import com.google.android.exoplayer2.DefaultRenderersFactory;
-import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.Player;
-import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
-import com.google.android.exoplayer2.extractor.ExtractorsFactory;
-import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
-import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.source.ProgressiveMediaSource;
-import com.google.android.exoplayer2.source.dash.DashMediaSource;
-import com.google.android.exoplayer2.source.hls.HlsMediaSource;
-import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource;
-import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelection;
-import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
-import com.google.android.exoplayer2.upstream.BandwidthMeter;
-import com.google.android.exoplayer2.upstream.DataSource;
-import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
-import com.google.android.exoplayer2.upstream.DefaultDataSource;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.RepeatModeUtil;
-import com.google.android.exoplayer2.util.Util;
-import com.google.android.exoplayer2.C;
 import com.huoli.bbl.exodemo.exoplayer.PlayerManager;
 
 import java.util.ArrayList;
@@ -53,10 +23,10 @@ import androidx.appcompat.app.AppCompatActivity;
  * @date: 2020-12-22
  * @description: 就是一个普通类
  * @lastUpdateTime 2020-12-22
- * #更新内容
+ * #更新内容 播放以小弹窗形式展示，使用activity是为了更好的管理播放器资源，便于释放
  * ===============================
  **/
-public class MainActivity extends AppCompatActivity {
+public class DialogActivity extends AppCompatActivity {
 
     private PlayerView playerView;
     private PlayerManager playerManager;
@@ -66,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_dialog);
         playerView = findViewById(R.id.player_view);
 
         initializePlayer();
@@ -80,10 +50,9 @@ public class MainActivity extends AppCompatActivity {
         playerManager.paly();
 
         //        videoList.add("https://qiniu.bangbangli.com/5GGZPVYQWLXNQZAFGY.mp4");
-                videoList.add("https://qiniu.bangbangli.com/WOKHDT2R7LL1OV9O3Q.mp4");
-//        videoList.add("http://5.595818.com/2015/ring/000/140/6731c71dfb5c4c09a80901b65528168b.mp3");
+//                videoList.add("https://qiniu.bangbangli.com/WOKHDT2R7LL1OV9O3Q.mp4");
+        videoList.add("http://5.595818.com/2015/ring/000/140/6731c71dfb5c4c09a80901b65528168b.mp3");
         playerManager.setPlayerUri(videoList);
-//        startActivity(new Intent(this,DialogActivity.class));
     }
 
     @Override
