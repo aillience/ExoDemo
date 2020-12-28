@@ -51,7 +51,8 @@ public class DialogActivity extends AppCompatActivity {
 
         //        videoList.add("https://qiniu.bangbangli.com/5GGZPVYQWLXNQZAFGY.mp4");
 //                videoList.add("https://qiniu.bangbangli.com/WOKHDT2R7LL1OV9O3Q.mp4");
-        videoList.add("http://5.595818.com/2015/ring/000/140/6731c71dfb5c4c09a80901b65528168b.mp3");
+//        videoList.add("http://5.595818.com/2015/ring/000/140/6731c71dfb5c4c09a80901b65528168b.mp3");
+        videoList.add("https://lijuanqiniu.mnnmedu.com/20190404145745d - 大调卡农.mp3");
         playerManager.setPlayerUri(videoList);
     }
 

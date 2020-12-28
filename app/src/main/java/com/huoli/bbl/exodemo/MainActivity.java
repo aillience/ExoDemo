@@ -32,6 +32,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.RepeatModeUtil;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.C;
@@ -39,6 +40,8 @@ import com.huoli.bbl.exodemo.exoplayer.PlayerManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -79,9 +82,17 @@ public class MainActivity extends AppCompatActivity {
         playerManager.setControllerShowTimeoutMs(0);
         playerManager.paly();
 
-        //        videoList.add("https://qiniu.bangbangli.com/5GGZPVYQWLXNQZAFGY.mp4");
-                videoList.add("https://qiniu.bangbangli.com/WOKHDT2R7LL1OV9O3Q.mp4");
+        ;
+//        filterChinese("https://lijuanqiniu.mnnmedu.com/20190523151536045 希腊神话-阿尔忒弥斯与奥利温_标清.mp4");
+//        filterChinese("https://lijuanqiniu.mnnmedu.com/201904041457512013法国旅游官方推广宣传片_标清_batch.mp4");
+
+//        videoList.add("https://qiniu.bangbangli.com/5GGZPVYQWLXNQZAFGY.mp4");
+//        videoList.add("https://lijuanqiniu.mnnmedu.com/201904041457512013法国旅游官方推广宣传片_标清_batch.mp4");
 //        videoList.add("http://5.595818.com/2015/ring/000/140/6731c71dfb5c4c09a80901b65528168b.mp3");
+        videoList.add("https://lijuanqiniu.mnnmedu.com/20190523151536045 希腊神话-阿尔忒弥斯与奥利温_标清.mp4");
+//        videoList.add(ul);
+//        videoList.add("https://lijuanqiniu.mnnmedu.com/20190523151536045%20%E5%B8%8C%E8%85%8A%E7%A5%9E%E8%AF%9D-%E9%98%BF%E5%B0%94%E5%BF%92%E5%BC%A5%E6%96%AF%E4%B8%8E%E5%A5%A5%E5%88%A9%E6%B8%A9_%E6%A0%87%E6%B8%85.mp4");
+        videoList.add("https://lijuanqiniu.mnnmedu.com/20190404145745d - 大调卡农.mp3");
         playerManager.setPlayerUri(videoList);
 //        startActivity(new Intent(this,DialogActivity.class));
     }
@@ -114,4 +125,5 @@ public class MainActivity extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_FULLSCREEN);
         }
     }
+
 }
